@@ -1,0 +1,38 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: istio-gateways
+  namespace: flux-system
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+  path: "./kubernetes/clusters/cluster-0-nas/deployments/istio/ingress/gateways"
+  prune: true
+  wait: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-cluster
+  dependsOn:
+    - name: istiod
+      namespace: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: istio-virtual-services
+  namespace: flux-system
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+  path: "./kubernetes/clusters/cluster-0-nas/deployments/istio/ingress/virtual-services"
+  prune: true
+  wait: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-cluster
+  dependsOn:
+    - name: istio-gateways
+      namespace: flux-system

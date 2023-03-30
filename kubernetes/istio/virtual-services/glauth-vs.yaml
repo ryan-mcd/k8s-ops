@@ -1,0 +1,22 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: glauth
+  namespace: istio-ingress
+spec:
+  hosts:
+  - glauth.${DOMAIN_1}
+  gateways:
+    - istio-ingress/istio-passthrough-gateway
+  tcp:
+  - match:
+    - port: 636
+      # sniHosts:
+      #   - glauth.${DOMAIN_1}
+    route:
+      - destination:
+          host: glauth.sso.svc.cluster.local
+          port:
+            number: 636
+        weight: 100

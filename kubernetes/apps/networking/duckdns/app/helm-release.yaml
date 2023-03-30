@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: duckdns
+  namespace: networking
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 15m
+
+  values:
+    image:
+      repository: linuxserver/duckdns
+      tag: "version-60e7cc6d"
+
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: ${TIMEZONE}
+      SUBDOMAINS:
+        valueFrom:
+          secretKeyRef:
+            name: duckdns-env
+            key: SUBDOMAINS
+      TOKEN:
+        valueFrom:
+          secretKeyRef:
+            name: duckdns-env
+            key: TOKEN
+
+    envFrom:
+      - secretRef:
+          name: duckdns-env
+
+    service:
+      main:
+        enabled: false
+
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 100m
+      limits:
+        memory: 200Mi

@@ -1,0 +1,37 @@
+---
+# https://www.keycloak.org/server/reverseproxy
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: keycloak
+  namespace: istio-ingress
+spec:
+  hosts:
+    - 'id.${DOMAIN_1}'
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - name: root
+      match:
+      - uri:
+          exact: /
+      redirect:
+        uri: /auth
+    - name: http
+      match:
+        - uri:
+            prefix: "/auth"
+        # - uri:
+        #     prefix: "/realms"
+        # - uri:
+        #     prefix: "/js"
+        # - uri:
+        #     prefix: "/resources"
+        # - uri:
+        #     prefix: "/robots"
+      route:
+        - destination:
+            port:
+              number: 80
+            host: keycloak-http.sso.svc.cluster.local
+          weight: 100

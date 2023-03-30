@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../../core/cert-manager/namespace.yaml
+  - ../../../../core/cert-manager/cert-manager/ks.yaml
+  - ../../../../core/local-path-provisioner/ks.yaml

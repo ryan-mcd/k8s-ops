@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../../istio/virtual-services/hashivault-vs.yaml
+  - ../../../../istio/virtual-services/vaultwarden-vs.yaml
+  - ../../../../istio/virtual-services/keycloak-vs.yaml
+  - ../../../../istio/virtual-services/glauth-vs.yaml

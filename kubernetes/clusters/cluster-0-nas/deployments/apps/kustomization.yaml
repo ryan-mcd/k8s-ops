@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../../apps/debug/namespace.yaml
+  - ../../../../apps/debug/echo-server/ks.yaml
+  - ../../../../apps/flux-system/namespace.yaml
+  # - ../../../../apps/flux-system/weave-gitops/ks.yaml
+  # - ../../../../apps/flux-system/addons/ks.yaml
+  - ../../../../apps/kube-system/namespace.yaml
+  - ../../../../apps/kube-system/metrics-server/ks.yaml
+  - ../../../../apps/kube-system/reloader/ks.yaml
+  - ../../../../apps/monitoring/namespace.yaml
+  # - ../../../../apps/monitoring/kubernetes-dashboard/ks.yaml
+  - ../../../../apps/networking/namespace.yaml
+  # - ../../../../apps/networking/cloudflare-ddns/ks.yaml
+  # - ../../../../apps/networking/cloudflared/ks.yaml
+  # - ./apps/networking/cloudflared/app/config.yaml
+  # - ./apps/networking/cloudflared/app/secret.sops.yaml
+  # - ../../../../apps/networking/duckdns/ks.yaml
+  # - ./apps/networking/duckdns/app/secret.sops.yaml
+  # - ../../../../apps/networking/external-dns/ks.yaml
+  # - ./apps/networking/external-dns/app/secret.sops.yaml
+  # - ../../../../apps/networking/ingress-nginx/ks.yaml
+  # - ../../../../apps/networking/k8s-gateway/ks.yaml
+  # - ../../../../apps/networking/metallb/ks.yaml
+  - ../../../../apps/sso/namespace.yaml
+  - ../../../../apps/sso/glauth/ks.yaml
+  # - ../../../../apps/sso/keycloak/ks.yaml
+  # - ../../../../apps/sso/postgres/ks.yaml

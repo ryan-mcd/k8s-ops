@@ -1,0 +1,20 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hashivault
+  namespace: istio-ingress
+spec:
+  hosts:
+    - 'hashivault.${DOMAIN_1}'
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 8200
+            host: vault.hashivault.svc.cluster.local
+          weight: 100
