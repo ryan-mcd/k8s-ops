@@ -15,7 +15,7 @@ spec:
     kind: GitRepository
     name: flux-cluster
   dependsOn:
-    - name: cluster-apps-cert-manager
+    - name: cluster-core-cert-manager
       namespace: flux-system
     - name: istiod
       namespace: flux-system
