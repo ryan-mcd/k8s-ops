@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - ../../../../core/cert-manager/namespace.yaml
   - ../../../../core/cert-manager/cert-manager/ks.yaml
-  - ../../../../core/local-path-provisioner/ks.yaml
+  - ../../../../core/kube-system/local-path-provisioner/ks.yaml
