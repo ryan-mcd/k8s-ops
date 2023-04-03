@@ -24,6 +24,6 @@ resources:
   # - ../../../../apps/networking/k8s-gateway/ks.yaml
   # - ../../../../apps/networking/metallb/ks.yaml
   - ../../../../apps/sso/namespace.yaml
-  - ../../../../apps/sso/glauth/ks.yaml
+  # - ../../../../apps/sso/glauth/ks.yaml
   # - ../../../../apps/sso/keycloak/ks.yaml
   # - ../../../../apps/sso/postgres/ks.yaml

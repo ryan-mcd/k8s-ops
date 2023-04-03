@@ -19,7 +19,8 @@ spec:
     - server auth
     - client auth
   issuerRef:
-    name: letsencrypt-production
+    # name: letsencrypt-production
+    name: letsencrypt-staging
     kind: ClusterIssuer
   commonName: "${DOMAIN_1}"
   dnsNames:
