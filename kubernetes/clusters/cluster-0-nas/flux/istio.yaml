@@ -11,6 +11,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-cluster
+  dependsOn:
+    - name: secrets
   decryption:
     provider: sops
     secretRef:
