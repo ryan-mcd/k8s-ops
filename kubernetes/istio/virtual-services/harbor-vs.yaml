@@ -2,8 +2,8 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: harbor-ingress
-  namespace: harbor
+  name: harbor
+  namespace: istio-ingress
 spec:
   hosts:
   - registry.${DOMAIN_1}
