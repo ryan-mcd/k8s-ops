@@ -1,0 +1,20 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: alert-manager
+  namespace: istio-ingress
+spec:
+  hosts:
+    - 'alert-manager.${DOMAIN_2}'
+  gateways:
+    - istio-ingress/istio-private-gateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 9093
+            host: prometheus-alertmanager.monitoring.svc.cluster.local
+          weight: 100

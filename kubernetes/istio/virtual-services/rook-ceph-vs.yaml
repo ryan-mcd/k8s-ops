@@ -1,0 +1,20 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: rook-ceph
+  namespace: istio-ingress
+spec:
+  hosts:
+    - 'rook.${DOMAIN_2}'
+  gateways:
+    - istio-ingress/istio-private-gateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 7000
+            host: rook-ceph-mgr-dashboard.rook-ceph.svc.cluster.local
+          weight: 100

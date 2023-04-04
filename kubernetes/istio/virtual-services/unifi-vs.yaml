@@ -1,0 +1,20 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: unifi
+  namespace: istio-ingress
+spec:
+  hosts:
+    - 'unifi.${DOMAIN_2}'
+  gateways:
+    - istio-ingress/istio-private-gateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 8443
+            host: unifi.networking.svc.cluster.local
+          weight: 100

@@ -6,30 +6,30 @@ metadata:
   namespace: istio-ingress
 spec:
   hosts:
-  - registry.${DOMAIN_1}
+    - registry.${DOMAIN_1}
   gateways:
-  - istio-ingress/istio-ingressgateway
+    - istio-ingress/istio-ingressgateway
   http:
-  - name: registry
-    match:
-    - uri:
-        prefix: "/api/"
-    - uri:
-        prefix: "/service/"
-    - uri:
-        prefix: "/v2"
-    - uri:
-        prefix: "/chartrepo/"
-    - uri:
-        prefix: "/c/"
-    route:
-    - destination:
-        host: harbor-core.harbor.svc.cluster.local
-        port:
-          number: 80
-  - name: portal
-    route:
-    - destination:
-        host: harbor-portal.harbor.svc.cluster.local
-        port:
-          number: 80
+    - name: registry
+      match:
+        - uri:
+            prefix: "/api/"
+        - uri:
+            prefix: "/service/"
+        - uri:
+            prefix: "/v2"
+        - uri:
+            prefix: "/chartrepo/"
+        - uri:
+            prefix: "/c/"
+      route:
+        - destination:
+            host: harbor-core.harbor.svc.cluster.local
+            port:
+              number: 80
+    - name: portal
+      route:
+        - destination:
+            host: harbor-portal.harbor.svc.cluster.local
+            port:
+              number: 80
