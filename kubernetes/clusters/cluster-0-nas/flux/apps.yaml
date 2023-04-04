@@ -12,7 +12,8 @@ spec:
     kind: GitRepository
     name: flux-cluster
   dependsOn:
-    - name: core
+    - name: cluster-core-local-path-storage-classes
+    - name: cluster-core-cert-manager-issuers
   decryption:
     provider: sops
     secretRef:

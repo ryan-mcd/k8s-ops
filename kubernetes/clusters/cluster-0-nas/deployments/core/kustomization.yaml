@@ -4,3 +4,4 @@ resources:
   - ../../../../core/cert-manager/namespace.yaml
   - ../../../../core/cert-manager/cert-manager/ks.yaml
   - ../../../../core/kube-system/local-path-provisioner/ks.yaml
+  - ./kube-system/local-path-provisioner/storageclass-ks.yaml
