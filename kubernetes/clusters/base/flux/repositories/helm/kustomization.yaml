@@ -23,3 +23,4 @@ resources:
   - ./codecentric-charts.yaml
   - ./kubernetes-dashboard.yaml
   - ./weave-gitops.yaml
+  - ./harbor-charts.yaml
