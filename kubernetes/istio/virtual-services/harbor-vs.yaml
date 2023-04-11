@@ -24,12 +24,12 @@ spec:
             prefix: "/c/"
       route:
         - destination:
-            host: harbor-core.harbor.svc.cluster.local
+            host: harbor-core.development.svc.cluster.local
             port:
               number: 80
     - name: portal
       route:
         - destination:
-            host: harbor-portal.harbor.svc.cluster.local
+            host: harbor-portal.development.svc.cluster.local
             port:
               number: 80
