@@ -30,3 +30,6 @@ resources:
   # - ../../../../apps/sso/glauth/ks.yaml
   # - ../../../../apps/sso/keycloak/ks.yaml
   # - ../../../../apps/sso/postgres/ks.yaml
+
+patchesStrategicMerge:
+  - ./patches/namespace-development.patch.yaml
