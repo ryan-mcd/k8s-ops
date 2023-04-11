@@ -5,7 +5,7 @@ resources:
   - ../../../../apps/debug/echo-server/ks.yaml
   - ../../../../apps/development/namespace.yaml
   - ../../../../apps/development/harbor-secrets.sops.yaml
-  # - ../../../../apps/development/harbor/ks.yaml
+  - ../../../../apps/development/harbor/ks.yaml
   - ../../../../apps/flux-system/namespace.yaml
   # - ../../../../apps/flux-system/weave-gitops/ks.yaml
   # - ../../../../apps/flux-system/addons/ks.yaml
