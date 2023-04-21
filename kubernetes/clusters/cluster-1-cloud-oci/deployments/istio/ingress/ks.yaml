@@ -8,7 +8,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/clusters/cluster-0-nas/deployments/istio/ingress/gateways"
+  path: "./kubernetes/clusters/cluster-1-cloud-oci/deployments/istio/ingress/gateways"
   prune: true
   wait: false
   sourceRef:
@@ -27,7 +27,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/clusters/cluster-0-nas/deployments/istio/ingress/virtual-services"
+  path: "./kubernetes/clusters/cluster-1-cloud-oci/deployments/istio/ingress/virtual-services"
   prune: true
   wait: false
   sourceRef:

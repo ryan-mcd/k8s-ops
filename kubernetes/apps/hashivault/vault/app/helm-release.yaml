@@ -1,0 +1,43 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vault
+  namespace: hashivault
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: vault
+      version: 0.23.0
+      sourceRef:
+        kind: HelmRepository
+        name: hashicorp-charts
+        namespace: flux-system
+  values:
+    metrics:
+      enabled: true
+    service:
+      enabled: true
+    server:
+      extraLabels:
+        configmap.reloader.stakater.com/reload: vault-config
+      ingress:
+        enabled: false
+      dataStorage:
+        enabled: true
+        size: 5Gi
+        storageClass: ${STORAGE_CLASS_SSD}
+      auditStorage:
+        enabled: true
+        size: 5Gi
+        storageClass: ${STORAGE_CLASS_SSD}
+      extraEnvironmentVars:
+        TZ: ${TIMEZONE}
+        # VAULT_ADDR: "http://127.0.0.1:8200"
+    ui:
+      enabled: true
+    csi:
+      enabled: false
+    injector:
+      enabled: "true"

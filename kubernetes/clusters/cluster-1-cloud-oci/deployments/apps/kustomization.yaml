@@ -1,0 +1,51 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../../apps/debug/namespace.yaml
+  - ../../../../apps/debug/echo-server/ks.yaml
+  # - ../../../../apps/development/namespace.yaml
+  # - ../../../../apps/development/harbor-secrets.sops.yaml
+  # - ../../../../apps/development/harbor/ks.yaml
+  - ../../../../apps/flux-system/namespace.yaml
+  # - ../../../../apps/flux-system/weave-gitops/ks.yaml
+  # - ../../../../apps/flux-system/addons/ks.yaml
+  - ../../../../apps/kube-system/namespace.yaml
+  - ../../../../apps/kube-system/metrics-server/ks.yaml
+  - ../../../../apps/kube-system/reloader/ks.yaml
+  - ../../../../apps/monitoring/namespace.yaml
+  # - ../../../../apps/monitoring/kubernetes-dashboard/ks.yaml
+  - ../../../../apps/networking/namespace.yaml
+  # - ../../../../apps/networking/cloudflare-ddns/ks.yaml
+  - ../../../../apps/networking/cloudflared/ks.yaml
+  - ./networking/cloudflared/app/
+  - ../../../../apps/networking/duckdns/ks.yaml
+  - ./networking/duckdns/app/secret.sops.yaml
+  # - ../../../../apps/networking/external-dns/ks.yaml
+  # - ./apps/networking/external-dns/app/secret.sops.yaml
+  # - ../../../../apps/networking/ingress-nginx/ks.yaml
+  # - ../../../../apps/networking/k8s-gateway/ks.yaml
+  # - ../../../../apps/networking/metallb/ks.yaml
+  - ../../../../apps/sso/namespace.yaml
+  - ../../../../apps/sso/glauth/ks.yaml
+  - ../../../../apps/sso/keycloak/ks.yaml
+  - ../../../../apps/sso/postgres/ks.yaml
+  - ../../../../apps/hashivault/vault/namespace.yaml
+  - ./hashivault/vault/ks.yaml
+
+
+
+# NAMESPACE          	NAME                	REVISION	SUSPENDED	READY	MESSAGE
+# networking         	duckdns             	1.3.2   	False    	True 	Release reconciliation succeeded
+# hashivault         	vault               	0.23.0  	False    	True 	Release reconciliation succeeded
+# istio-system       	istiod              	1.17.1  	False    	True 	Release reconciliation succeeded
+# sso                	glauth              	1.3.2   	False    	True 	Release reconciliation succeeded
+# cert-manager       	cert-manager-issuers	v0.3.1  	False    	True 	Release reconciliation succeeded
+# networking         	cloudflared         	1.3.2   	False    	True 	Release reconciliation succeeded
+# sso                	postgresql          	12.2.6  	False    	True 	Release reconciliation succeeded
+# istio-observability	jaeger              	0.69.1  	False    	True 	Release reconciliation succeeded
+# istio-system       	istio-base          	1.17.2  	False    	True 	Release reconciliation succeeded
+# istio-system       	istio-cni           	1.17.2  	False    	True 	Release reconciliation succeeded
+# istio-ingress      	istio-gateway       	1.17.2  	False    	True 	Release reconciliation succeeded
+# cert-manager       	cert-manager        	v1.11.1 	False    	True 	Release reconciliation succeeded
+# sso                	keycloak            	2.1.1   	False    	True 	Release reconciliation succeeded
+# kube-system        	metrics-server      	3.10.0  	False    	True 	Release reconciliation succeeded

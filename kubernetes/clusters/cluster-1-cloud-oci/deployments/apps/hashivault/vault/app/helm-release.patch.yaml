@@ -1,0 +1,57 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vault
+  namespace: hashivault
+spec:
+  values:
+    server:
+      extraLabels:
+        configmap.reloader.stakater.com/reload: vault-config
+      # extraSecretEnvironmentVars is a list of extra environment variables to set with the stateful set.
+      # These variables take value from existing Secret objects.
+      extraSecretEnvironmentVars:
+        - envName: VAULT_OCIKMS_SEAL_KEY_ID
+          secretName: vault
+          secretKey: VAULT_OCIKMS_SEAL_KEY_ID
+        - envName: VAULT_OCIKMS_CRYPTO_ENDPOINT
+          secretName: vault
+          secretKey: VAULT_OCIKMS_CRYPTO_ENDPOINT
+        - envName: VAULT_OCIKMS_MANAGEMENT_ENDPOINT
+          secretName: vault
+          secretKey: VAULT_OCIKMS_MANAGEMENT_ENDPOINT
+        - envName: VAULT_TOKEN
+          secretName: vault
+          secretKey: VAULT_TOKEN
+      extraEnvironmentVars:
+        VAULT_SEAL_TYPE: ocikms
+      resources:
+        requests:
+          memory: 128Mi
+          cpu: 100m
+        limits:
+          memory: 1024Mi
+      standalone:
+        enabled: true
+        config: |
+          ui = true
+          storage "file" {
+            path = "/vault/data"
+          }
+          # seal "ocikms" {
+          #     auth_type_api_key    = "true"
+          # }
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+            telemetry {
+              unauthenticated_metrics_access = "true"
+            }
+          }
+          telemetry {
+            prometheus_retention_time = "24h",
+            disable_hostname = true
+          }
+          # service_registration "kubernetes" {}

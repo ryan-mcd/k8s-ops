@@ -7,5 +7,4 @@ resources:
   - gateway.yaml
   - private-certificate.yaml
   - private-gateway.yaml
-  - passthru-gateway.yaml
   # - authorization-policy.yaml
