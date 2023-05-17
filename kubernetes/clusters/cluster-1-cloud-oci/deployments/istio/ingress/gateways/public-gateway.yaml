@@ -1,0 +1,32 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-ingress
+spec:
+  selector:
+    app: istio-gateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - 'hashivault.rmcd.win'
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - 'hashivault.rmcd.win'
+        - istio-gateway.istio-ingress.svc.cluster.local
+        - istio-gateway.istio-ingress.svc
+        - istio-gateway.istio-ingress
+      tls:
+        credentialName: istio-public-cert-tls
+        mode: SIMPLE
+        minProtocolVersion: TLSV1_2
+        maxProtocolVersion: TLSV1_3

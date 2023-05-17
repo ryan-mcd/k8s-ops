@@ -20,6 +20,7 @@ spec:
             - ${DOMAIN_1}
             - ${DOMAIN_2}
             - ${DOMAIN_3}
+            - rmcd.win
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -43,3 +44,4 @@ spec:
             - ${DOMAIN_1}
             - ${DOMAIN_2}
             - ${DOMAIN_3}
+            - rmcd.win

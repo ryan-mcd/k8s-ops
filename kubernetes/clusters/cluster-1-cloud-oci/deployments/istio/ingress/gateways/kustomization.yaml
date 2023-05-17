@@ -7,4 +7,6 @@ resources:
   - gateway.yaml
   - private-certificate.yaml
   - private-gateway.yaml
+  - public-certificate.yaml
+  - public-gateway.yaml
   # - authorization-policy.yaml
