@@ -2,7 +2,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: istio-ingressgateway
+  name: istio-public-gateway
   namespace: istio-ingress
 spec:
   selector:
@@ -10,7 +10,7 @@ spec:
   servers:
     - port:
         number: 80
-        name: http
+        name: http-public
         protocol: HTTP
       hosts:
         - 'hashivault.rmcd.win'
@@ -18,7 +18,7 @@ spec:
         httpsRedirect: true
     - port:
         number: 443
-        name: https
+        name: https-public
         protocol: HTTPS
       hosts:
         - 'hashivault.rmcd.win'

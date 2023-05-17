@@ -8,7 +8,7 @@ spec:
   hosts:
     - 'hashivault.rmcd.win'
   gateways:
-    - istio-ingress/istio-ingressgateway
+    - istio-ingress/public-ingressgateway
   http:
     - match:
         - port: 443
