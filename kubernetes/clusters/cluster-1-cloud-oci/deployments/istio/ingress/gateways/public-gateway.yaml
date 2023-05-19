@@ -10,18 +10,18 @@ spec:
   servers:
     - port:
         number: 80
-        name: http-public
+        name: http
         protocol: HTTP
       hosts:
-        - 'hashivault.rmcd.win'
+        - 'hashivault.${DOMAIN_4}'
       tls:
         httpsRedirect: true
     - port:
         number: 443
-        name: https-public
+        name: https
         protocol: HTTPS
       hosts:
-        - 'hashivault.rmcd.win'
+        - 'hashivault.${DOMAIN_4}'
         - istio-gateway.istio-ingress.svc.cluster.local
         - istio-gateway.istio-ingress.svc
         - istio-gateway.istio-ingress
