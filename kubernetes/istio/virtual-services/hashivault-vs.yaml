@@ -6,9 +6,9 @@ metadata:
   namespace: istio-ingress
 spec:
   hosts:
-    - 'hashivault.rmcd.win'
+    - 'hashivault.${DOMAIN_1}'
   gateways:
-    - istio-ingress/istio-public-gateway
+    - istio-ingress/istio-ingressgateway
   http:
     - match:
         - port: 443
