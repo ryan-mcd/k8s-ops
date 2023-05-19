@@ -5,7 +5,7 @@ originRequest: # Top-level configuration
   connectTimeout: 30s
 
 ingress:
-  - hostname: hashivault.${DOMAIN_1}
+  - hostname: hashivault.${DOMAIN_4}
     service: https://istio-gateway.istio-ingress.svc.cluster.local
     originRequest:
       noTLSVerify: true

@@ -14,7 +14,7 @@ spec:
         protocol: HTTP
       hosts:
         - '${DOMAIN_1}'
-        - '*.${DOMAIN_1}'
+        - 'id.${DOMAIN_1}'
       tls:
         httpsRedirect: true
     - port:
@@ -23,7 +23,7 @@ spec:
         protocol: HTTPS
       hosts:
         - '${DOMAIN_1}'
-        - '*.${DOMAIN_1}'
+        - 'id.${DOMAIN_1}'
         - istio-gateway.istio-ingress.svc.cluster.local
         - istio-gateway.istio-ingress.svc
         - istio-gateway.istio-ingress
