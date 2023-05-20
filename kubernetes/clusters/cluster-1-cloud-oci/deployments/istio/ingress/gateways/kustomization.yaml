@@ -9,4 +9,5 @@ resources:
   - private-gateway.yaml
   - public-certificate.yaml
   - public-gateway.yaml
+  - pub-gateway-helm-release.yaml
   # - authorization-policy.yaml
