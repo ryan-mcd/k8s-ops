@@ -6,14 +6,14 @@ metadata:
   namespace: istio-ingress
 spec:
   selector:
-    app: istio-gateway
+    app: istio-pub-gateway
   servers:
     - port:
         number: 80
         name: http
         protocol: HTTP
       hosts:
-        - 'hashivault.${DOMAIN_4}'
+        - '*.${DOMAIN_4}'
       tls:
         httpsRedirect: true
     - port:
@@ -21,10 +21,11 @@ spec:
         name: https
         protocol: HTTPS
       hosts:
-        - 'hashivault.${DOMAIN_4}'
-        - istio-gateway.istio-ingress.svc.cluster.local
-        - istio-gateway.istio-ingress.svc
-        - istio-gateway.istio-ingress
+        - '${DOMAIN_4}'
+        - '*.${DOMAIN_4}'
+        - istio-pub-gateway.istio-ingress.svc.cluster.local
+        - istio-pub-gateway.istio-ingress.svc
+        - istio-pub-gateway.istio-ingress
       tls:
         credentialName: istio-public-cert-tls
         mode: SIMPLE

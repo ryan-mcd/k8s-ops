@@ -6,7 +6,7 @@ originRequest: # Top-level configuration
 
 ingress:
   - hostname: hashivault.${DOMAIN_4}
-    service: https://istio-gateway.istio-ingress.svc.cluster.local
+    service: https://istio-pub-gateway.istio-ingress.svc.cluster.local
     originRequest:
       noTLSVerify: true
   - hostname: id.${DOMAIN_1}
