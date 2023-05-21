@@ -44,6 +44,33 @@ resource "vault_jwt_auth_backend_role" "default" {
 }
 
 #------------------------------------------------------------------------------#
+# Vault engines
+#------------------------------------------------------------------------------#
+
+resource "vault_mount" "secret" {
+  path        = "secret"
+  type        = "kv-v2"
+  description = "KV2 Secrets Engine"
+}
+
+resource "vault_mount" "sops" {
+  path        = "sops"
+  type        = "transit"
+  description = "This is the transit engine for SOPS"
+  default_lease_ttl_seconds = 3600
+  max_lease_ttl_seconds     = 86400
+
+  options = {
+    convergent_encryption = false
+  }
+}
+
+resource "vault_transit_secret_backend_key" "sops_user_key" {
+  backend = vault_mount.sops.path
+  name    = "sops-user"
+}
+
+#------------------------------------------------------------------------------#
 # Vault policies
 #------------------------------------------------------------------------------#
 module "reader" {
@@ -74,6 +101,203 @@ module "management" {
         {
           path         = "/secret/*"
           capabilities = ["create", "read", "update", "delete", "list"]
+        }
+      ]
+    }
+  ]
+}
+
+module "admin" {
+  source = "./external_group"
+  external_accessor = vault_jwt_auth_backend.keycloak.accessor
+  vault_identity_oidc_key_name = vault_identity_oidc_key.keycloak_provider_key.name
+  groups = [
+    {
+      group_name = "admin"
+      rules = [
+        ## AUTH POLICIES OIDC
+        # Mount the OIDC auth method
+        {
+        path         = "sys/auth/oidc"
+        capabilities = [ "create", "read", "update", "delete", "sudo" ]
+        },
+
+        # Configure the OIDC auth method
+        {
+        path         = "auth/oidc/*"
+        capabilities = [ "create", "read", "update", "delete", "list" ]
+        },
+
+        ## ADMIN POLICIES FOR SOPS
+
+        # Manage the transit secrets engine
+        {
+        path         = "sops/*"
+        capabilities = [ "create", "read", "update", "delete", "list" ]
+        },
+
+        ## ADMIN POLICIES FROM DOCS @ https://www.hashicorp.com/resources/policies-vault
+        # Manage auth backends broadly across Vault
+        {
+        path         = "auth/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+        },
+
+        # List, create, update, and delete auth backends
+        {
+        path         = "sys/auth/*"
+        capabilities = ["create", "read", "update", "delete", "sudo"]
+        },
+
+        # To list policies - Step 3
+        {
+        path         = "sys/policy"
+        capabilities = ["read"]
+        },
+
+        # Create and manage ACL policies broadly across Vault
+        {
+        path         = "sys/policy/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+        },
+
+        # List, create, update, and delete key/value secrets
+        {
+        path         = "secret/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+        },
+
+        # Manage and manage secret backends broadly across Vault.
+        {
+        path         = "sys/mounts/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+        },
+
+        # Read health checks
+        {
+        path         = "sys/health"
+        capabilities = ["read", "sudo"]
+        },
+
+        # To perform Step 4
+        {
+        path         = "sys/capabilities"
+        capabilities = ["create", "update"]
+        },
+
+        # To perform Step 4
+        {
+        path         = "sys/capabilities-self"
+        capabilities = ["create", "update"]
+        },
+
+        ## ADMIN POLICIES FROM https://github.com/tvories/k8s-gitops/blob/dcbf1363d7d88ae19d1e306bdd1c352ed60355f9/k8s/clusters/cluster-0/manifests/selfhosted/hashi-vault/config/policies/admin.hcl
+
+        # Manage auth methods broadly across Vault
+        {
+        path         = "auth/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+        },
+
+        # Create, update, and delete auth methods
+        {
+        path         = "sys/auth/*"
+        capabilities = ["create", "update", "delete", "sudo"]
+        },
+
+        # List auth methods
+        {
+        path         = "sys/auth"
+        capabilities = ["read"]
+        },
+
+        # List existing policies
+        {
+        path         = "sys/policies/acl"
+        capabilities = ["list"]
+        },
+
+        # Create and manage all policies
+        {
+        path         = "sys/policies/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+        },
+        # Create and manage ACL policies
+        {
+        path         = "sys/policies/acl/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+        },
+
+        # List, create, update, and delete key/value secrets
+        {
+        path         = "secret/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+        },
+
+        # Manage secrets engines
+        {
+        path         = "sys/mounts/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+        },
+
+        # List existing secrets engines.
+        {
+        path         = "sys/mounts"
+        capabilities = ["read"]
+        },
+
+        # Read health checks
+        {
+        path         = "sys/health"
+        capabilities = ["read", "sudo"]
+        },
+
+        # Mount the AppRole auth method
+        {
+        path         = "sys/auth/approle"
+        capabilities = [ "create", "read", "update", "delete", "sudo" ]
+        },
+
+        # Configure the AppRole auth method
+        {
+        path         = "sys/auth/approle/*"
+        capabilities = [ "create", "read", "update", "delete" ]
+        },
+
+        # Create and manage roles
+        {
+        path         = "auth/approle/*"
+        capabilities = [ "create", "read", "update", "delete", "list" ]
+        },
+
+        # Manage tokens for verification
+        {
+        path         = "auth/token/create"
+        capabilities = [ "create", "read", "update", "delete", "list" ]
+        },
+
+        # Manage the leases
+        {
+        path         = "sys/leases/*"
+        capabilities = [ "create", "read", "update", "delete", "list" ]
+        },
+
+        # Link existing policies
+        {
+        path         = "sys/policy"
+        capabilities = ["read"]
+        },
+
+        # Create and manage ACL policies broadly across Vault
+        {
+        path         = "sys/policy/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+        },
+
+        # Backup raft snapshots
+        {
+        path         = "sys/storage/raft/snapshot"
+        capabilities = ["read"]
         }
       ]
     }
