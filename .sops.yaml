@@ -1,23 +1,63 @@
 ---
+# E6D978BF2C0B69227A85D9BA04812C60A830A726 > flux_oci_cluster.pub.asc
+# age19mqhjpr2yqrwz9n3p7cs52tt3090wjt9kskylgquu3839ce6wuksy5ssqy
+# B98EF6FF6F3748661F449D0CA912302389FEB397 > flux_main_cluster.pub.asc
+# age1tfmjgyxfv09xc7kvy0895wekpcqarywaeeuxs7cy0n37zs77tejs9z40a4
+# 95106BD4F26A01996BDA831E6D9E63E5FF3AE8E0 > personal_key.pub.asc
+# nas cluster
+# age1a6zmnhmgqf2u6a4c0hwjelf8zcr9azv0fmkz45dmsxljljd9mpescf070l
 creation_rules:
-  - path_regex: kubernetes/.*\.sops\.ya?ml
+  - path_regex: kubernetes/(apps|core|istio)/.*\.sops\.ya?ml
     encrypted_regex: "^(data|stringData)$"
+    hc_vault_transit_uri: "https://hashivault.rmcd.win/v1/sops/keys/sops-user"
+    age: >-
+      age19mqhjpr2yqrwz9n3p7cs52tt3090wjt9kskylgquu3839ce6wuksy5ssqy,
+      age1tfmjgyxfv09xc7kvy0895wekpcqarywaeeuxs7cy0n37zs77tejs9z40a4,
+      age1a6zmnhmgqf2u6a4c0hwjelf8zcr9azv0fmkz45dmsxljljd9mpescf070l
     pgp: >-
       E6D978BF2C0B69227A85D9BA04812C60A830A726,
       B98EF6FF6F3748661F449D0CA912302389FEB397,
       95106BD4F26A01996BDA831E6D9E63E5FF3AE8E0
-  - path_regex: kubernetes/.*\.sops\.toml
+  - path_regex: kubernetes/clusters/base/.*\.sops\.ya?ml
+    encrypted_regex: "^(data|stringData)$"
+    hc_vault_transit_uri: "https://hashivault.rmcd.win/v1/sops/keys/sops-user"
+    age: >-
+      age19mqhjpr2yqrwz9n3p7cs52tt3090wjt9kskylgquu3839ce6wuksy5ssqy,
+      age1tfmjgyxfv09xc7kvy0895wekpcqarywaeeuxs7cy0n37zs77tejs9z40a4,
+      age1a6zmnhmgqf2u6a4c0hwjelf8zcr9azv0fmkz45dmsxljljd9mpescf070l
     pgp: >-
       E6D978BF2C0B69227A85D9BA04812C60A830A726,
       B98EF6FF6F3748661F449D0CA912302389FEB397,
       95106BD4F26A01996BDA831E6D9E63E5FF3AE8E0
-  - path_regex: kubernetes/.*\.sops\.json
+  - path_regex: kubernetes/clusters/cluster-0-nas/.*\.sops\.ya?ml
+    encrypted_regex: "^(data|stringData)$"
+    hc_vault_transit_uri: "https://hashivault.rmcd.win/v1/sops/keys/sops-user"
+    age: >-
+      age1a6zmnhmgqf2u6a4c0hwjelf8zcr9azv0fmkz45dmsxljljd9mpescf070l
+    pgp: >-
+      E6D978BF2C0B69227A85D9BA04812C60A830A726,
+      B98EF6FF6F3748661F449D0CA912302389FEB397,
+      95106BD4F26A01996BDA831E6D9E63E5FF3AE8E0
+  - path_regex: kubernetes/clusters/cluster-1-cloud-oci/.*\.sops\.ya?ml
+    encrypted_regex: "^(data|stringData)$"
+    hc_vault_transit_uri: "https://hashivault.rmcd.win/v1/sops/keys/sops-user"
+    age: >-
+      age19mqhjpr2yqrwz9n3p7cs52tt3090wjt9kskylgquu3839ce6wuksy5ssqy
+    pgp: >-
+      E6D978BF2C0B69227A85D9BA04812C60A830A726,
+      B98EF6FF6F3748661F449D0CA912302389FEB397,
+      95106BD4F26A01996BDA831E6D9E63E5FF3AE8E0
+  - path_regex: kubernetes/.*\.sops\.(toml|json)
+    hc_vault_transit_uri: "https://hashivault.rmcd.win/v1/sops/keys/sops-user"
+    age: >-
+      age19mqhjpr2yqrwz9n3p7cs52tt3090wjt9kskylgquu3839ce6wuksy5ssqy,
+      age1tfmjgyxfv09xc7kvy0895wekpcqarywaeeuxs7cy0n37zs77tejs9z40a4,
+      age1a6zmnhmgqf2u6a4c0hwjelf8zcr9azv0fmkz45dmsxljljd9mpescf070l
     pgp: >-
       E6D978BF2C0B69227A85D9BA04812C60A830A726,
       B98EF6FF6F3748661F449D0CA912302389FEB397,
       95106BD4F26A01996BDA831E6D9E63E5FF3AE8E0
   - path_regex: terraform/.*\.secrets\.ya?ml
+    hc_vault_transit_uri: "https://hashivault.rmcd.win/v1/sops/keys/sops-user"
     pgp: >-
-      E6D978BF2C0B69227A85D9BA04812C60A830A726,
-      B98EF6FF6F3748661F449D0CA912302389FEB397,
       95106BD4F26A01996BDA831E6D9E63E5FF3AE8E0
