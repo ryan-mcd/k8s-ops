@@ -21,9 +21,6 @@ spec:
         - envName: VAULT_OCIKMS_MANAGEMENT_ENDPOINT
           secretName: vault
           secretKey: VAULT_OCIKMS_MANAGEMENT_ENDPOINT
-        - envName: VAULT_TOKEN
-          secretName: vault
-          secretKey: VAULT_TOKEN
       extraEnvironmentVars:
         VAULT_SEAL_TYPE: ocikms
       resources:
