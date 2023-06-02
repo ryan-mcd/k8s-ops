@@ -1,5 +1,14 @@
 terraform {
 
+}
+terraform {
+  cloud {
+    organization = "mcd-infra"
+
+    workspaces {
+      name = "oci-tools"
+    }
+  }
   required_providers {
     sops = {
       source  = "carlpett/sops"
