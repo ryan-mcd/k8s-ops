@@ -31,3 +31,4 @@ resources:
   - ../../../../apps/sso/postgres/ks.yaml
   - ../../../../apps/hashivault/vault/namespace.yaml
   - ./hashivault/vault/ks.yaml
+  - ./flux-system/tf-cloud-agent/ks.yaml
