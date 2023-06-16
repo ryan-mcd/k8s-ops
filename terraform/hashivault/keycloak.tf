@@ -1,19 +1,19 @@
 resource "keycloak_openid_client" "openid_client" {
   realm_id            = data.keycloak_realm.realm.id
-  client_id           = "hashivault"
+  name                = data.sops_file.secrets.data["vault_id"]
+  client_id           = data.sops_file.secrets.data["vault_id"]
+  client_secret       = data.sops_file.secrets.data["vault_client_secret"]
 
-  name                = "hashivault"
   enabled             = true
   standard_flow_enabled = true
 
   access_type         = "CONFIDENTIAL"
   valid_redirect_uris = [
-    "https://${data.sops_file.secrets.data["vault_addr"]}/*"
+    "https://${data.sops_file.secrets.data["vault_addr"]}/*",
+    "https://${data.sops_file.secrets.data["vault_addr"]}/ui/vault/auth/oidc/oidc/callback",
   ]
-  # root_url =
-  # web_origins =
-  # admin_url =
-
+  admin_url           = "https://${data.sops_file.secrets.data["vault_addr"]}"
+  root_url            = "https://${data.sops_file.secrets.data["vault_addr"]}"
 }
 
 
