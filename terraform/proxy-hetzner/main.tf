@@ -25,12 +25,12 @@ auto_delete   = false
 resource "hcloud_firewall" "proxy_firewall" {
   name = "proxy-firewall"
 
-  rule {
-    direction = "in"
-    protocol  = "tcp"
-    port      = "22"
-    source_ips = var.allowed_ssh_ips
-  }
+  # rule {
+  #   direction = "in"
+  #   protocol  = "tcp"
+  #   port      = "22"
+  #   source_ips = var.allowed_ssh_ips
+  # }
 
   rule {
     direction = "in"
