@@ -16,9 +16,9 @@ resources:
   # - ../../../../apps/monitoring/kubernetes-dashboard/ks.yaml
   - ../../../../apps/networking/namespace.yaml
   # - ../../../../apps/networking/cloudflare-ddns/ks.yaml
-  # - ../../../../apps/networking/cloudflared/ks.yaml
-  # - ./apps/networking/cloudflared/app/config.yaml
-  # - ./apps/networking/cloudflared/app/secret.sops.yaml
+  - ../../../../apps/networking/cloudflared/ks.yaml
+  - ./networking/cloudflared/app/config.sops.yaml
+  - ./networking/cloudflared/app/secret.sops.yaml
   # - ../../../../apps/networking/duckdns/ks.yaml
   # - ./apps/networking/duckdns/app/secret.sops.yaml
   # - ../../../../apps/networking/external-dns/ks.yaml

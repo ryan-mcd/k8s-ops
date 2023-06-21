@@ -1,0 +1,33 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-addl-gateway
+  namespace: istio-ingress
+spec:
+  selector:
+    app: istio-addl-gateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - '*.${DOMAIN_3}'
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - '${DOMAIN_3}'
+        - '*.${DOMAIN_3}'
+        - istio-addl-gateway.istio-ingress.svc.cluster.local
+        - istio-addl-gateway.istio-ingress.svc
+        - istio-addl-gateway.istio-ingress
+      tls:
+        credentialName: istio-addl-cert-tls
+        mode: SIMPLE
+        minProtocolVersion: TLSV1_2
+        maxProtocolVersion: TLSV1_3
