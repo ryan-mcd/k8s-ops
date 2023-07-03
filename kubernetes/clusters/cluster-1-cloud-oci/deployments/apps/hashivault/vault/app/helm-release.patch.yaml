@@ -52,3 +52,8 @@ spec:
             disable_hostname = true
           }
           # service_registration "kubernetes" {}
+    injector:
+      enabled: "true"
+      replicas: &injector_replicas 1
+      podDisruptionBudget:
+        maxUnavailable: *injector_replicas

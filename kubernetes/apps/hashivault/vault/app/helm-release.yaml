@@ -39,5 +39,3 @@ spec:
       enabled: true
     csi:
       enabled: false
-    injector:
-      enabled: "true"
