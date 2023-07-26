@@ -136,6 +136,14 @@ module "admin" {
         capabilities = [ "create", "read", "update", "delete", "list" ]
         },
 
+        ## ADMIN POLICIES FOR PKI
+
+        # Manage the pki secrets engine
+        {
+        path         = "pki*"
+        capabilities = [ "create", "read", "update", "delete", "list", "sudo" ]
+        },
+
         ## ADMIN POLICIES FROM DOCS @ https://www.hashicorp.com/resources/policies-vault
         # Manage auth backends broadly across Vault
         {
