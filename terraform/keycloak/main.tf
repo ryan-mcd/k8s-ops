@@ -213,3 +213,68 @@ resource "keycloak_openid_client_default_scopes" "gitea_client_default_scopes" {
     "acr"
   ]
 }
+
+resource "keycloak_openid_client" "rancher" {
+  realm_id            = keycloak_realm.realm.id
+  name                = data.sops_file.secrets.data["rancher_id"]
+  client_id           = data.sops_file.secrets.data["rancher_id"]
+  client_secret       = data.sops_file.secrets.data["rancher_client_secret"]
+
+  enabled             = true
+  standard_flow_enabled = true
+
+  access_type         = "CONFIDENTIAL"
+  valid_redirect_uris = [
+    "https://${data.sops_file.secrets.data["rancher_addr"]}/verify-auth",
+  ]
+  admin_url           = "https://${data.sops_file.secrets.data["rancher_addr"]}"
+  root_url            = "https://${data.sops_file.secrets.data["rancher_addr"]}"
+}
+
+resource "keycloak_openid_client_scope" "rancher" {
+  realm_id               = keycloak_realm.realm.id
+  name                   = "rancher"
+  description            = "rancher scope"
+  include_in_token_scope = true
+}
+
+resource "keycloak_openid_group_membership_protocol_mapper" "rancher_group_membership_mapper" {
+  realm_id  = keycloak_realm.realm.id
+  client_scope_id = keycloak_openid_client_scope.rancher.id
+  name      = "Groups Mapper"
+
+  claim_name          = "groups"
+  add_to_id_token     = false
+  add_to_access_token = false
+}
+
+resource "keycloak_openid_group_membership_protocol_mapper" "rancher_groups_path_mapper" {
+  realm_id  = keycloak_realm.realm.id
+  client_scope_id = keycloak_openid_client_scope.rancher.id
+  name      = "Group Path"
+
+  claim_name = "full_group_path"
+  full_path  = true
+}
+
+resource "keycloak_openid_audience_protocol_mapper" "rancher_audience_mapper" {
+  realm_id  = keycloak_realm.realm.id
+  client_scope_id = keycloak_openid_client_scope.rancher.id
+  name      = "Client Audience"
+
+  included_custom_audience = data.sops_file.secrets.data["rancher_id"]
+}
+
+resource "keycloak_openid_client_default_scopes" "rancher_client_default_scopes" {
+  realm_id  = keycloak_realm.realm.id
+  client_id = keycloak_openid_client.rancher.id
+
+  default_scopes = [
+    keycloak_openid_client_scope.rancher.name,
+    "profile",
+    "email",
+    "roles",
+    "web-origins",
+    "acr"
+  ]
+}
