@@ -31,3 +31,18 @@ output client_cert {
     value     = vault_pki_secret_backend_sign.client_cert # module.pki.client_cert
     sensitive = true
 }
+
+resource "vault_pki_secret_backend_role" "webserver-certs" {
+  backend                            = module.pki.int_pki_backend_path
+  name                               = "webserver-certs"
+  max_ttl                            = 94608000
+  allow_ip_sans                      = true
+  key_type                           = "rsa"
+  key_bits                           = 2048
+  allow_any_name                     = false
+  allow_localhost                    = true
+  allow_subdomains                   = true
+  allow_bare_domains                 = true
+  allow_wildcard_certificates        = true
+  allowed_domains                    = [ "${data.sops_file.secrets.data["DOMAIN_1"]}", "${data.sops_file.secrets.data["DOMAIN_2"]}", "${data.sops_file.secrets.data["DOMAIN_3"]}", "${data.sops_file.secrets.data["DOMAIN_4"]}", "${data.sops_file.secrets.data["DOMAIN_5"]}"]
+}
