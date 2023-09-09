@@ -1,5 +1,5 @@
 module "pki" {
-  source = "git::https://github.com/ryan-mcd/vault-pki.git?ref=e3a40c0e03c9f828ac10ca07b715c47377c0cd92"
+  source = "git::https://github.com/ryan-mcd/vault-pki.git?ref=f3da22b303045252e3ce00667c046a4ae95c5c92"
 
   vault_uri                  = "https://hashivault.rmcd.win"
   root_path                  = "pki_root"
@@ -32,7 +32,12 @@ output client_cert {
     sensitive = true
 }
 
-resource "vault_pki_secret_backend_role" "webserver-certs" {
+resource "local_file" "ca_cert" {
+  content  = module.pki.ca_cert
+  filename = "${path.module}/ca_cert.pem"
+}
+
+resource "vault_pki_secret_backend_role" "webserver_certs" {
   backend                            = module.pki.int_pki_backend_path
   name                               = "webserver-certs"
   max_ttl                            = 94608000
