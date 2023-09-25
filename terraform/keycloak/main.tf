@@ -2,7 +2,7 @@ resource "keycloak_realm" "realm" {
     enabled                                     = true
     realm                                       = data.sops_file.secrets.data["keycloak_realm"]
     default_signature_algorithm                 = "RS256"
-    browser_flow                                = "browser-plus-otp"
+    # browser_flow                                = "browser-plus-otp"
     # access_code_lifespan                     = "1m0s"
     # access_code_lifespan_login               = "30m0s"
     # access_code_lifespan_user_action         = "5m0s"
@@ -51,19 +51,19 @@ resource "keycloak_realm" "realm" {
     #     type              = "totp"
     # }
 
-    # web_authn_passwordless_policy {
-    #     acceptable_aaguids                = []
-    #     attestation_conveyance_preference = "not specified"
-    #     authenticator_attachment          = "not specified"
-    #     avoid_same_authenticator_register = false
-    #     create_timeout                    = 0
-    #     relying_party_entity_name         = "keycloak"
-    #     require_resident_key              = "not specified"
-    #     signature_algorithms              = [
-    #         "ES256",
-    #     ]
-    #     user_verification_requirement     = "not specified"
-    # }
+    web_authn_passwordless_policy {
+        user_verification_requirement     = "required"
+        # acceptable_aaguids                = []
+        # attestation_conveyance_preference = "not specified"
+        # authenticator_attachment          = "not specified"
+        # avoid_same_authenticator_register = false
+        # create_timeout                    = 0
+        # relying_party_entity_name         = "keycloak"
+        # require_resident_key              = "not specified"
+        # signature_algorithms              = [
+        #     "ES256",
+        # ]
+    }
 
     # web_authn_policy {
     #     acceptable_aaguids                = []
