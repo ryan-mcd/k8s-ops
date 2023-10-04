@@ -29,7 +29,7 @@ provider "sops" {
 
 provider "vault" {
   address = "https://${data.sops_file.secrets.data["vault_addr"]}"
-  token   = data.sops_file.secrets.data["vault_root_token"]
+  # token   = data.sops_file.secrets.data["vault_root_token"]
 }
 
 provider "keycloak" {

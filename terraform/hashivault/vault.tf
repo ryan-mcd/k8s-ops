@@ -115,6 +115,12 @@ module "admin" {
     {
       group_name = "admin"
       rules = [
+        # ## GOD MODE
+        # {
+        # path         = "*"
+        # capabilities = [ "sudo", "read", "create", "update", "delete", "list", "patch" ]
+        # },
+
         ## AUTH POLICIES OIDC
         # Mount the OIDC auth method
         {
@@ -306,6 +312,11 @@ module "admin" {
         {
         path         = "sys/storage/raft/snapshot"
         capabilities = ["read"]
+        },
+
+        {
+        path         = "identity/*"
+        capabilities = ["create", "read", "update", "delete", "list", "sudo"]
         }
       ]
     }
