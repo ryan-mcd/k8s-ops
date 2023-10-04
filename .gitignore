@@ -19,5 +19,6 @@ terraform.tfstate*
 *.pem
 *.key
 *.cer
+!ca_cert.pem
 # Binaries
 gitleaks

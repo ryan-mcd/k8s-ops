@@ -80,6 +80,27 @@ resource "keycloak_realm" "realm" {
     # }
 }
 
+resource "keycloak_openid_client" "terraform_client_api" {
+  realm_id            = "master"
+  name                = data.sops_file.secrets.data["terraform_client"]
+  client_id           = data.sops_file.secrets.data["terraform_client"]
+  client_secret       = data.sops_file.secrets.data["terraform_client_secret"]
+
+  enabled                      = true
+  standard_flow_enabled        = false
+  direct_access_grants_enabled = false
+  service_accounts_enabled     = true
+
+  access_type         = "CONFIDENTIAL"
+}
+
+resource "keycloak_openid_client_service_account_realm_role" "terraform_client_service_account_role" {
+  realm_id                = "master"
+  service_account_user_id = keycloak_openid_client.terraform_client_api.service_account_user_id
+  role                    = data.sops_file.secrets.data["terraform_client_role"]
+}
+
+
 resource "keycloak_ldap_user_federation" "glauth" {
     enabled                         = true
     realm_id                        = keycloak_realm.realm.id
