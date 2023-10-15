@@ -1,56 +1,102 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
+    "config:recommended",
     "docker:enableMajor",
     ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
-    ":enablePreCommit",
     ":automergeDigest",
     ":automergeBranch",
-    "github>ryan-mcd/k8s-ops//.github/renovate/autoMerge.json5",
-    "github>ryan-mcd/k8s-ops//.github/renovate/commitMessage.json5",
-    "github>ryan-mcd/k8s-ops//.github/renovate/groups.json5",
-    "github>ryan-mcd/k8s-ops//.github/renovate/labels.json5",
-    "github>ryan-mcd/k8s-ops//.github/renovate/semanticCommits.json5",
+    "github>ryan-mcd/gitops-home-cluster//.github/renovate/allowedVersions.json5",
+    "github>ryan-mcd/gitops-home-cluster//.github/renovate/autoMerge.json5",
+    "github>ryan-mcd/gitops-home-cluster//.github/renovate/commitMessage.json5",
+    "github>ryan-mcd/gitops-home-cluster//.github/renovate/groups.json5",
+    "github>ryan-mcd/gitops-home-cluster//.github/renovate/labels.json5",
+    "github>ryan-mcd/gitops-home-cluster//.github/renovate/semanticCommits.json5",
     "helpers:pinGitHubActionDigests"
   ],
-  "dependencyDashboard": true,
+  "enabled": true,
+  "timezone": "America/New_York",
+  "platform": "github",
+  "onboarding": false,
+  "requireConfig": "optional",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prIgnoreNotification"],
+  // only rebase PRs when there's a conflict
   "rebaseWhen": "conflicted",
-  "schedule": [
-    "before 6am every tuesday",
-    "before 6am every saturday"
-  ],
-  "pre-commit": {
-    "enabled": true
-  },
+  "ignorePaths": ["**/archive/**"],
   "flux": {
-    "fileMatch": ["kubernetes/.+\\.ya?ml$"]
+    "fileMatch": ["(^|/)cluster/.+\\.ya?ml(\\.j2)?$"]
   },
   "helm-values": {
-    "fileMatch": ["kubernetes/.+\\.ya?ml$"]
+    "fileMatch": ["(^|/)cluster/.+\\.ya?ml(\\.j2)?$"]
   },
   "kubernetes": {
     "fileMatch": [
-      "ansible/.+\\.ya?ml.j2$",
-      "kubernetes/.+\\.ya?ml$"
+      "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
+      "(^|/)server/.+\\.ya?ml(\\.j2)?$",
+      "(^|/)cluster/.+\\.ya?ml(\\.j2)?$"
     ]
   },
-  "regexManagers": [
+  "customManagers": [
     {
-      "description": "Process various other dependencies",
+      "customType": "regex",
+      "description": "Process Tekton dependencies",
       "fileMatch": [
-        "ansible/.+\\.ya?ml$",
-        "kubernetes/.+\\.ya?ml$"
+        "(^|/)cluster/.+\\.ya?ml(\\.j2)?$"
       ],
       "matchStrings": [
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n"
+        "depName=(?<depName>\\S+)?\n.*?(?<currentValue>v\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "description": "Process custom dependencies",
+      "fileMatch": [
+        "(^|/)server/.+\\.ya?ml(\\.j2)?$",
+        "(^|/)cluster/.+\\.ya?ml(\\.j2)?$"
+      ],
+      "matchStrings": [
+        // Example: `k3s_release_version: "v1.27.3+k3s1"`
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n",
+        // Example: `- https://github.com/rancher/system-upgrade-controller/releases/download/v0.11.0/crd.yaml`
+        //          `- https://github.com/argoproj/argo-cd/raw/v2.7.10/manifests/install.yaml`
+        //          `- https://github.com/argoproj/argo-cd/raw/v2.7.10/manifests/ha/install.yaml`
+        //          `- https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/21.1.1/kubernetes/kubernetes.yml`
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?-\\s(.*?)\/(?<currentValue>(v|\\d)[^/]+)\/\\S+\n",
+        // Example: apiVersion=helm.cattle.io/v1 kind=HelmChart
+        "datasource=(?<datasource>\\S+)\n.*?repo: (?<registryUrl>\\S+)\n.*?chart: (?<depName>\\S+)\n.*?version: (?<currentValue>\\S+)\n"
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Process CloudnativePG Postgresql version",
+      "fileMatch": [
+        "(^|/)cluster/.+\\.ya?ml(\\.j2)?$"
+      ],
+      "matchStrings": [
+        "imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "redhat"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Loose versioning for non-semver packages",
+      "matchDatasources": ["docker"],
+      "versioning": "loose",
+      "matchPackagePatterns": ["changedetection", "plex", "qbittorrent"]
+    },
+    {
+      "description": "Use custom versioning for Minio",
+      "matchDatasources": ["docker"],
+      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
+      "matchPackagePatterns": ["minio"]
     }
   ]
 }
