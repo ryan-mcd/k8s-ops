@@ -95,13 +95,13 @@ spec:
         type: secret
         name: glauth-secret
         globalMounts:
-          - path: server.toml
+          - path: /config/server.toml
             subPath: server.toml
             readOnly: true
-          - path: groups.toml
+          - path: /config/groups.toml
             subPath: groups.toml
             readOnly: true
-          - path: users.toml
+          - path: /config/users.toml
             subPath: users.toml
             readOnly: true
       glauth-tls:
