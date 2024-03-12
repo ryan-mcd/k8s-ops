@@ -26,6 +26,13 @@ variable "allowed_ssh_ips" {
   default     = [""]
 }
 
+# Defined in terraform cloud
+variable "create_proxy" {
+  description = "Variable used to determine if proxy should exist"
+  type        = string
+  default     = "false"
+}
+
 variable "ssh_authorized_keys" {
   description = "list of public keys to add as authorized ssh keys"
   type        = list(string)

@@ -1,5 +1,6 @@
 # Create a new server running debian
 resource "hcloud_server" "proxy" {
+  count        = var.create_proxy == "true" ? 1 : 0
   name         = "proxy-hetzner"
   image        = "ubuntu-22.04"
   server_type  = "cpx11"
