@@ -9,7 +9,7 @@ terraform {
   required_providers {
     sops = {
       source  = "carlpett/sops"
-      version = "1.0.0"
+      version = "1.2.0"
     }
     hcloud = {
       source = "hetznercloud/hcloud"
