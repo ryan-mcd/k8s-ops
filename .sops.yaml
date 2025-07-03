@@ -63,3 +63,9 @@ creation_rules:
       age17nu5r47gk7y79vtg7zmnrxxedxltm25t8wxry3g73w7t844mqs8qgh96es
     pgp: >-
       95106BD4F26A01996BDA831E6D9E63E5FF3AE8E0
+  - path_regex: terraform/.*\.sops\.pem
+    hc_vault_transit_uri: "https://hashivault.rmcd.win/v1/sops/keys/sops-user"
+    age: >-
+      age17nu5r47gk7y79vtg7zmnrxxedxltm25t8wxry3g73w7t844mqs8qgh96es
+    pgp: >-
+      95106BD4F26A01996BDA831E6D9E63E5FF3AE8E0
