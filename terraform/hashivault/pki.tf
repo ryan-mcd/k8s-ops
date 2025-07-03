@@ -49,5 +49,5 @@ resource "vault_pki_secret_backend_role" "webserver_certs" {
   allow_subdomains                   = true
   allow_bare_domains                 = true
   allow_wildcard_certificates        = true
-  allowed_domains                    = [ "${data.sops_file.secrets.data["DOMAIN_1"]}", "${data.sops_file.secrets.data["DOMAIN_2"]}", "${data.sops_file.secrets.data["DOMAIN_3"]}", "${data.sops_file.secrets.data["DOMAIN_4"]}", "${data.sops_file.secrets.data["DOMAIN_5"]}"]
+  allowed_domains                    = [ "${data.sops_file.secrets.data["DOMAIN_1"]}", "${data.sops_file.secrets.data["DOMAIN_2"]}", "${data.sops_file.secrets.data["DOMAIN_3"]}", "${data.sops_file.secrets.data["DOMAIN_4"]}", "${data.sops_file.secrets.data["DOMAIN_5"]}", "${data.sops_file.secrets.data["DOMAIN_6"]}", "${data.sops_file.secrets.data["DOMAIN_7"]}"]
 }
