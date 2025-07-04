@@ -235,6 +235,52 @@ resource "keycloak_openid_client_default_scopes" "gitea_client_default_scopes" {
   ]
 }
 
+resource "keycloak_openid_client" "gitea2" {
+  realm_id            = keycloak_realm.realm.id
+  name                = data.sops_file.secrets.data["gitea2_id"]
+  client_id           = data.sops_file.secrets.data["gitea2_id"]
+  client_secret       = data.sops_file.secrets.data["gitea2_client_secret"]
+
+  enabled             = true
+  standard_flow_enabled = true
+
+  access_type         = "CONFIDENTIAL"
+  valid_redirect_uris = [
+    "https://${data.sops_file.secrets.data["gitea2_addr"]}/user/oauth2/keycloak/callback",
+  ]
+  admin_url           = "https://${data.sops_file.secrets.data["gitea2_addr"]}"
+  root_url            = "https://${data.sops_file.secrets.data["gitea2_addr"]}"
+}
+
+resource "keycloak_openid_client_scope" "gitea2" {
+  realm_id               = keycloak_realm.realm.id
+  name                   = "gitea2"
+  description            = "gitea2 scope"
+  include_in_token_scope = true
+}
+
+resource "keycloak_openid_group_membership_protocol_mapper" "gitea2_group_membership_mapper" {
+  realm_id  = keycloak_realm.realm.id
+  client_scope_id = keycloak_openid_client_scope.gitea2.id
+  name      = "groups"
+
+  claim_name = "groups"
+}
+
+resource "keycloak_openid_client_default_scopes" "gitea2_client_default_scopes" {
+  realm_id  = keycloak_realm.realm.id
+  client_id = keycloak_openid_client.gitea2.id
+
+  default_scopes = [
+    keycloak_openid_client_scope.gitea2.name,
+    "profile",
+    "email",
+    "roles",
+    "web-origins",
+    "acr"
+  ]
+}
+
 resource "keycloak_openid_client" "rancher" {
   realm_id            = keycloak_realm.realm.id
   name                = data.sops_file.secrets.data["rancher_id"]
